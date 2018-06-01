@@ -1,0 +1,27 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'materials/style.css' %}" />
+
+<body>
+
+<div>
+
+    <h1>{% block title %}MN Materials CSV to DB Uploader{% endblock %}</h1>
+
+
+    <p>
+        {% if latest_question_list %}
+        <ul>
+        {% for question in latest_question_list %}
+        <li>{{ question }}</li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No polls are available.</p>
+        {% endif %}
+    </p>
+
+
+</div>
+
+</body>
