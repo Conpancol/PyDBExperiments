@@ -1,15 +1,66 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
 from django.template import loader
+from django.core.files.storage import FileSystemStorage
+from django.utils.datastructures import MultiValueDictKeyError
+
+from .services.MaterialCreator import MaterialCreator
+
+import requests
+import json
+import os
+import importlib.util
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+spec = importlib.util.spec_from_file_location("BackendMessage", BASE_DIR+'\common\BackendMessage.py')
+common = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(common)
+
+
+def cleanup(filename):
+    try:
+        os.remove('.' + filename)
+        print("removed file: " + filename)
+    except Exception as error:
+        print(error)
 
 
 def index(request):
-    latest_question_list = [1,2,3,4,5,6]
+
     template = loader.get_template('materials/index.html')
-    context = {
-        'latest_question_list': latest_question_list,
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
+
+def simple_upload(request):
+    try:
+        if request.method == 'POST' and request.FILES['myfile']:
+
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+
+            # ... do here the magic
+            creator = MaterialCreator()
+            result = creator.createMaterialfromCSV('.' + uploaded_file_url)
+            result_json = []
+
+            for material in result:
+                result_json.append(json.dumps(material))
+
+            r = requests.post('http://localhost:4567/auth/materials/', json=result)
+
+            backend_message = common.BackendMessage(json.loads(r.text))
+            print(backend_message)
+
+            cleanup(uploaded_file_url)
+
+            return render(request, 'materials/simple_upload.html', {
+                'uploaded_materials': result_json})
+
+    except MultiValueDictKeyError as exception:
+            print("No file selected")
+            return render(request, 'materials/simple_upload.html', {'error_message': 'No file selected'})
+
+    return render(request, 'materials/simple_upload.html')
 
