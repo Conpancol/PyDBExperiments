@@ -1,15 +1,13 @@
 from .Materials import Material
 
+
 class ExtMaterials(Material):
     def __init__(self, material):
+        super().__init__()
         self.orderNumber = "1"
         self.unit = "EA"
         self.quantity = 1.0
-        self.setItemCode(material['itemcode'])
-        self.setDescription(material['description'])
-        self.setType(material['type'])
-        self.setCategory(material['category'])
-        self.setDimensions(material['dimensions'])
+        self.setItemCode(material.getItemCode())
 
     def setOrderNumber(self,orderNum):
         self.orderNumber = orderNum
