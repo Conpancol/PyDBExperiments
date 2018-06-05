@@ -1,6 +1,6 @@
 class RequestForQuotes:
+    """clase para RFQs - debe ser igual a la que tiene el Backend"""
     def __init__(self):
-        """clase para RFQs - debe ser igual a la que tiene el Backend"""
         self.internalCode = 0
         self.externalCode = 0
         self.receivedDate = '1900'
@@ -40,5 +40,5 @@ class RequestForQuotes:
         self.note = note
 
     def to_json(self):
-        obj_list = [ ob.__dict__ for ob in self.materialList]
+        obj_list = [ob.__dict__ for ob in self.materialList]
         return obj_list

@@ -1,18 +1,25 @@
 import csv
-import copy
-import json
 import datetime
 import logging
+import os
+import importlib.util
 
 from .RequestForQuotes import *
-from .ExtMaterials import ExtMaterials
-from .Materials import Material
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__).rsplit('\\', maxsplit=1)[0]))
+
+spec = importlib.util.spec_from_file_location("Material", BASE_DIR + '\common\Materials.py')
+common_material = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(common_material)
+
+spec = importlib.util.spec_from_file_location("ExtMaterial", BASE_DIR + '\common\ExtMaterials.py')
+common_ext = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(common_ext)
 
 
 class RFQCreator:
-
+    """clase para crear RFQs"""
     def __init__(self):
-        """clase que crea RFQs en el formator necesario para guardar en la DB"""
         self.rfq = RequestForQuotes()
         logging.basicConfig(filename='logs/rfqcreator.log', level=logging.DEBUG)
 
@@ -40,9 +47,9 @@ class RFQCreator:
                     quantity = float(row[2])
                     unit = row[3]
 
-                    material = Material()
+                    material = common_material.Material()
                     material.setItemCode(itemCode)
-                    extendedMaterial = ExtMaterials(material)
+                    extendedMaterial = common_ext.ExtMaterials(material)
                     extendedMaterial.setOrderNumber(orderNum)
                     extendedMaterial.setUnit(unit)
                     extendedMaterial.setQuantity(quantity)

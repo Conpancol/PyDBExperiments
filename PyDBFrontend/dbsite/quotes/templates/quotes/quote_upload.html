@@ -1,0 +1,18 @@
+{% extends 'materials/index.html' %}
+
+{% load static %}
+
+{% block content %}
+
+  <h2>Add new Quote to DB</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  {% if error_message %}
+      <p> {{ error_message }} </p>
+  {% endif %}
+
+{% endblock %}

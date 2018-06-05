@@ -1,6 +1,6 @@
 class Material:
+    """clase base de materiales"""
     def __init__(self):
-        """clase basica de materiales metalicos"""
         self.itemcode = "1"
         self.description = "X"
         self.type = "X"
