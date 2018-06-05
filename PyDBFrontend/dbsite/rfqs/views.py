@@ -27,7 +27,7 @@ def cleanup(filename):
 
 def index(request):
 
-    template = loader.get_template('rfqs/index.html')
+    template = loader.get_template('materials/index.html')
     context = {}
     return HttpResponse(template.render(context, request))
 

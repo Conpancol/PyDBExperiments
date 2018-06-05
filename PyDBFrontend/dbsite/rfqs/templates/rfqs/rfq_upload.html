@@ -1,5 +1,7 @@
 {% extends 'materials/index.html' %}
 
+{% load widget_tweaks %}
+
 {% load static %}
 
 {% block content %}
@@ -7,8 +9,22 @@
   <h2>Add new RFQ to DB</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
+
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field |add_class:'form-control'}}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+    <button type="submit" class="btn btn-success">Upload</button>
   </form>
 
   {% if error_message %}
