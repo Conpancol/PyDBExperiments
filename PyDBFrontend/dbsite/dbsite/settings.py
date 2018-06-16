@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'login.apps.LoginConfig',
     'materials.apps.MaterialsConfig',
     'rfqs.apps.RfqsConfig',
     'quotes.apps.QuotesConfig',

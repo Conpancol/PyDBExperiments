@@ -1,0 +1,39 @@
+{% extends 'materials/base.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="content-login">
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+
+        <div class="form-signin">
+          <h2 class="form-signin-heading">Please sign in</h2>
+        {% for field in form.visible_fields %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field |add_class:'form-control'}}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit" class="btn btn-success btn-block">Login</button>
+        </div>
+
+  </form>
+
+
+  {% if error_message %}
+      <p> {{ error_message }} </p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

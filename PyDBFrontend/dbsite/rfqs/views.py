@@ -72,5 +72,6 @@ def rfq_upload(request):
         return render(request, 'rfqs/rfq_upload.html', {'form': form})
 
     except Exception as error:
-        print(error)
+        cleanup(uploaded_file_url)
+        return render(request, 'rfqs/rfq_upload.html', {'form': form, 'error_message': "Server Error"})
 

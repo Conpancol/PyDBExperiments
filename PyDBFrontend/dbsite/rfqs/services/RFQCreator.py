@@ -37,23 +37,26 @@ class RFQCreator:
 
     def createRFQfromCSV(self, csvfile):
         try:
-
             with open(csvfile, 'r', encoding='utf-8') as f:
                 reader = csv.reader(f, dialect="excel-tab")
                 extmaterials = []
                 for row in reader:
-                    orderNum = row[0]
-                    itemCode = row[1]
-                    quantity = float(row[2])
-                    unit = row[3]
+                    try:
+                        orderNum = row[0]
+                        itemCode = row[1]
+                        quantity = float(row[2])
+                        unit = row[3]
+                        material = common_material.Material()
+                        material.setItemCode(itemCode)
+                        extendedMaterial = common_ext.ExtMaterials(material)
+                        extendedMaterial.setOrderNumber(orderNum)
+                        extendedMaterial.setUnit(unit)
+                        extendedMaterial.setQuantity(quantity)
+                        extmaterials.append(extendedMaterial)
 
-                    material = common_material.Material()
-                    material.setItemCode(itemCode)
-                    extendedMaterial = common_ext.ExtMaterials(material)
-                    extendedMaterial.setOrderNumber(orderNum)
-                    extendedMaterial.setUnit(unit)
-                    extendedMaterial.setQuantity(quantity)
-                    extmaterials.append(extendedMaterial)
+                    except ValueError:
+                        logging.info('There is a wrong data format entry. Please check')
+                        continue
 
                 self.rfq.setMaterialList(extmaterials)
 
