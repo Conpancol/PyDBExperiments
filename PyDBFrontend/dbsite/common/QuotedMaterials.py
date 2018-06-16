@@ -16,6 +16,7 @@ class QuotedMaterials(common_material.ExtMaterials):
         self.givenWeight = 0.00
         self.unitPrice = 0.00
         self.totalPrice = 0.00
+        self.countryOrigin = "NA"
         self.note = "NA"
 
     def setTheoreticalWeight(self, theoWeight):
@@ -33,5 +34,5 @@ class QuotedMaterials(common_material.ExtMaterials):
     def setNote(self, note):
         self.note = note
 
-
-
+    def setCountryOrigin(self, country):
+        self.countryOrigin = country
