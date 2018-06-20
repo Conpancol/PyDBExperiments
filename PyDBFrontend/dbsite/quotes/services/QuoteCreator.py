@@ -48,30 +48,37 @@ class QuoteCreator:
                 reader = csv.reader(f, dialect="excel-tab")
                 qtmaterials = []
                 for row in reader:
-                    orderNum = row[0]
-                    itemCode = row[1]
-                    quantity = float(row[2])
-                    unit = row[3]
-                    weight = float(row[4])
-                    givenweight = float(row[5])
-                    unitprice = float(row[6])
-                    totalprice = float(row[7])
-                    country = row[8]
-                    note = row[9]
+                    try:
+                        orderNum = row[0]
+                        itemCode = row[1]
+                        quantity = float(row[2])
+                        unit = row[3]
+                        weight = float(row[4])
+                        givenweight = float(row[5])
+                        unitprice = float(row[6])
+                        totalprice = float(row[7])
+                        currency = row[8]
+                        country = row[9]
+                        note = row[10]
 
-                    material = common_material.Material()
-                    material.setItemCode(itemCode)
-                    quoted_material = common.QuotedMaterials(material)
-                    quoted_material.setOrderNumber(orderNum)
-                    quoted_material.setUnit(unit)
-                    quoted_material.setQuantity(quantity)
-                    quoted_material.setTheoreticalWeight(weight)
-                    quoted_material.setGivenWeight(givenweight)
-                    quoted_material.setUnitPrice(unitprice)
-                    quoted_material.setTotalPrice(totalprice)
-                    quoted_material.setCountryOrigin(country)
-                    quoted_material.setNote(note)
-                    qtmaterials.append(quoted_material)
+                        material = common_material.Material()
+                        material.setItemCode(itemCode)
+                        quoted_material = common.QuotedMaterials(material)
+                        quoted_material.setOrderNumber(orderNum)
+                        quoted_material.setUnit(unit)
+                        quoted_material.setQuantity(quantity)
+                        quoted_material.setTheoreticalWeight(weight)
+                        quoted_material.setGivenWeight(givenweight)
+                        quoted_material.setUnitPrice(unitprice)
+                        quoted_material.setTotalPrice(totalprice)
+                        quoted_material.setCurrency(currency)
+                        quoted_material.setCountryOrigin(country)
+                        quoted_material.setNote(note)
+                        qtmaterials.append(quoted_material)
+                    except ValueError as error:
+                        print(itemCode)
+                        print(error)
+                        continue
 
                 self.quote.setMaterialList(qtmaterials)
 
@@ -84,4 +91,5 @@ class QuoteCreator:
             return quote_json
 
         except IOError as error:
+            print("QuoteCreator")
             print(error)

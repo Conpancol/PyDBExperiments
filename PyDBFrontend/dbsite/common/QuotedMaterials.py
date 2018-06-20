@@ -16,6 +16,7 @@ class QuotedMaterials(common_material.ExtMaterials):
         self.givenWeight = 0.00
         self.unitPrice = 0.00
         self.totalPrice = 0.00
+        self.currency = "NA"
         self.countryOrigin = "NA"
         self.note = "NA"
 
@@ -36,3 +37,6 @@ class QuotedMaterials(common_material.ExtMaterials):
 
     def setCountryOrigin(self, country):
         self.countryOrigin = country
+
+    def setCurrency(self, currency):
+        self.currency = currency

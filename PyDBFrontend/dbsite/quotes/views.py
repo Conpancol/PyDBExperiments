@@ -64,7 +64,7 @@ def quotes_upload(request):
 
                 result = quote.createQuotefromCSV('.' + uploaded_file_url)
 
-                print(json.dumps(result))
+                # ...  print(json.dumps(result))
 
                 r = requests.post('http://localhost:4567/auth/quotes/', json=result)
 
@@ -81,5 +81,6 @@ def quotes_upload(request):
         return render(request, 'quotes/quote_upload.html', {'form': form})
 
     except Exception as error:
+        print("View")
         print(error)
 
