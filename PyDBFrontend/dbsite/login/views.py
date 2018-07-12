@@ -5,15 +5,10 @@ from django.http import HttpResponse
 from .forms import UserForm
 
 import json
-import os
-import importlib.util
 import requests
 import jwt
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-spec = importlib.util.spec_from_file_location("BackendMessage", BASE_DIR+'\common\BackendMessage.py')
-common = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common)
+from common.BackendMessage import BackendMessage
 
 
 def simple_login(request):
@@ -30,7 +25,7 @@ def simple_login(request):
 
                 r = requests.post('http://localhost:4568/auth/login/', json=result)
 
-                backend_message = common.BackendMessage(json.loads(r.text))
+                backend_message = BackendMessage(json.loads(r.text))
                 print(backend_message)
 
             return render(request, 'login/simple_login.html', {'form': form})

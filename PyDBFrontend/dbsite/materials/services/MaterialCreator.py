@@ -1,14 +1,9 @@
 import csv
 import logging
-import os
-import importlib
 
 from .Utilities import *
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-spec = importlib.util.spec_from_file_location("Material", BASE_DIR+'\..\common\Materials.py')
-common = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common)
+from common.Materials import Material
 
 
 class MaterialCreator:
@@ -31,7 +26,7 @@ class MaterialCreator:
                     item = row[1]
                     dsc = row[2].rstrip().split(',')
                     cat = dsc[0]
-                    material = common.Material()
+                    material = Material()
                     material.setItemCode(item)
                     material.setDescription(','.join(dsc))
                     material.setCategory(cat)

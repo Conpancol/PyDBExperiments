@@ -1,20 +1,11 @@
 import csv
 import datetime
 import logging
-import os
-import importlib.util
 
 from .RequestForQuotes import *
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__).rsplit('\\', maxsplit=1)[0]))
-
-spec = importlib.util.spec_from_file_location("Material", BASE_DIR + '\common\Materials.py')
-common_material = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common_material)
-
-spec = importlib.util.spec_from_file_location("ExtMaterial", BASE_DIR + '\common\ExtMaterials.py')
-common_ext = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common_ext)
+from common.Materials import Material
+from common.ExtMaterials import ExtMaterials
 
 
 class RFQCreator:
@@ -46,9 +37,9 @@ class RFQCreator:
                         itemCode = row[1]
                         quantity = float(row[2])
                         unit = row[3]
-                        material = common_material.Material()
+                        material = Material()
                         material.setItemCode(itemCode)
-                        extendedMaterial = common_ext.ExtMaterials(material)
+                        extendedMaterial = ExtMaterials(material)
                         extendedMaterial.setOrderNumber(orderNum)
                         extendedMaterial.setUnit(unit)
                         extendedMaterial.setQuantity(quantity)

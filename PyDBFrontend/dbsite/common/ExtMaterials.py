@@ -1,14 +1,7 @@
-import os
-import importlib.util
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-spec = importlib.util.spec_from_file_location("Material", BASE_DIR + '\common\Materials.py')
-common_material = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common_material)
+from common.Materials import Material
 
 
-class ExtMaterials(common_material.Material):
+class ExtMaterials(Material):
     """Extended material class"""
     def __init__(self, material):
         super().__init__()

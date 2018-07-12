@@ -1,20 +1,11 @@
 import csv
 import datetime
 import logging
-import os
-import importlib.util
 
 from .Quotes import *
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__).rsplit('\\', maxsplit=1)[0]))
-
-spec = importlib.util.spec_from_file_location("QuotedMaterial", BASE_DIR + '\common\QuotedMaterials.py')
-common = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common)
-
-spec = importlib.util.spec_from_file_location("Material", BASE_DIR + '\common\Materials.py')
-common_material = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common_material)
+from common.Materials import Material
+from common.QuotedMaterials import QuotedMaterials
 
 
 class QuoteCreator:
@@ -61,9 +52,9 @@ class QuoteCreator:
                         country = row[9]
                         note = row[10]
 
-                        material = common_material.Material()
+                        material = Material()
                         material.setItemCode(itemCode)
-                        quoted_material = common.QuotedMaterials(material)
+                        quoted_material = QuotedMaterials(material)
                         quoted_material.setOrderNumber(orderNum)
                         quoted_material.setUnit(unit)
                         quoted_material.setQuantity(quantity)

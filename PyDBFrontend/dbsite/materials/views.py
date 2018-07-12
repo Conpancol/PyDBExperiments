@@ -9,12 +9,8 @@ from .services.MaterialCreator import MaterialCreator
 import requests
 import json
 import os
-import importlib.util
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-spec = importlib.util.spec_from_file_location("BackendMessage", BASE_DIR+'\common\BackendMessage.py')
-common = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(common)
+from common.BackendMessage import BackendMessage
 
 
 def cleanup(filename):
@@ -50,7 +46,7 @@ def simple_upload(request):
 
             r = requests.post('http://localhost:4567/auth/materials/', json=result)
 
-            backend_message = common.BackendMessage(json.loads(r.text))
+            backend_message = BackendMessage(json.loads(r.text))
             print(backend_message)
 
             cleanup(uploaded_file_url)
