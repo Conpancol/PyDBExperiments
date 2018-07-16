@@ -411,3 +411,18 @@ textarea:focus {
     background: transparent;
     border:2px solid #8ed9f6;
 }
+.collapse{
+cursor: pointer;
+display: none;
+}
+.collapse + input{
+display: block; /* hide the checkboxes */
+}
+.collapse + input + div{
+height:0px;
+visibility: hidden;
+}
+.collapse + input:checked + div{
+visibility: visible;
+height: 100%;
+}
